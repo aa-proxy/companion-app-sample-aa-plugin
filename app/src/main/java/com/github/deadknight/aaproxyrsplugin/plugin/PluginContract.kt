@@ -1,4 +1,4 @@
-package com.github.deadknight.aaproxycompanion.plugin
+package com.github.deadknight.aaproxyrsplugin.plugin
 
 import android.os.Parcelable
 import com.squareup.moshi.Json
