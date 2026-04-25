@@ -1,4 +1,4 @@
-package com.github.deadknight.aaproxyrsplugin.plugin
+package com.github.deadknight.aaproxycompanion.plugin
 
 import android.os.Parcelable
 import com.squareup.moshi.Json
@@ -14,9 +14,7 @@ enum class PluginDataKeys(val value: String) {
     @Json(name = "VEHICLE_BATTERY") VEHICLE_BATTERY("VEHICLE_BATTERY"),
     @Json(name = "VEHICLE_DRIVE_STATE") VEHICLE_DRIVE_STATE("VEHICLE_DRIVE_STATE"),
 
-    @Json(name = "SYSTEM_TIME") SYSTEM_TIME("SYSTEM_TIME"),
     @Json(name = "SYSTEM_THEME") SYSTEM_THEME("SYSTEM_THEME"),
-    @Json(name = "SYSTEM_UNITS") SYSTEM_UNITS("SYSTEM_UNITS"),
 
     @Json(name = "HOST_NAVIGATION_STATE") HOST_NAVIGATION_STATE("HOST_NAVIGATION_STATE");
 }
@@ -90,9 +88,7 @@ data class JsonEnvelope(
 @JsonClass(generateAdapter = true)
 @Parcelize
 data class VehicleSpeedData(
-    val speedKph: Float? = null,
-    val speedMph: Float? = null,
-    val displayUnit: String? = null
+    val speedKph: Float? = null
 ) : Parcelable
 
 @JsonClass(generateAdapter = true)
