@@ -40,7 +40,9 @@ class AAProxyPluginService : Service() {
                         PluginActions.PUSH,
                         PluginActions.REPLACE,
                         PluginActions.POP,
-                        PluginActions.EMIT_EVENT
+                        PluginActions.SCRIPT_EVENT,
+                        PluginActions.SUBSCRIBE_WS_TOPIC,
+                        PluginActions.UNSUBSCRIBE_WS_TOPIC,
                     )
                 )
             )

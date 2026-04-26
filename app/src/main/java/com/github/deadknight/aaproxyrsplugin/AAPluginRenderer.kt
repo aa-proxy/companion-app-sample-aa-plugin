@@ -1,5 +1,6 @@
 package com.github.deadknight.aaproxyrsplugin
 
+import SerializerMoshi
 import android.content.Context
 import androidx.compose.remote.creation.compose.action.HostAction
 import androidx.compose.remote.creation.compose.capture.RemoteCreationDisplayInfo
@@ -17,16 +18,15 @@ import androidx.compose.remote.creation.compose.state.RemoteString
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.ui.graphics.Color
 import com.github.deadknight.aaproxyrsplugin.plugin.JsonEnvelope
-import com.github.deadknight.aaproxyrsplugin.plugin.NavigationState
 import com.github.deadknight.aaproxyrsplugin.plugin.PluginAction
 import com.github.deadknight.aaproxyrsplugin.plugin.PluginActions
 import com.github.deadknight.aaproxyrsplugin.plugin.PluginContract
 import com.github.deadknight.aaproxyrsplugin.plugin.PluginDataKeys
 import com.github.deadknight.aaproxyrsplugin.plugin.PluginRenderRequest
+import com.github.deadknight.aaproxyrsplugin.plugin.SystemThemeData
 import com.github.deadknight.aaproxyrsplugin.plugin.VehicleOdometerData
 import com.github.deadknight.aaproxyrsplugin.plugin.VehicleSpeedData
 import com.github.deadknight.aaproxyrsplugin.plugin.VehicleTpmsData
-import com.github.deadknight.aaproxyrsplugin.plugin.SystemThemeData
 import fromJson
 import toJson
 import kotlin.math.roundToInt
