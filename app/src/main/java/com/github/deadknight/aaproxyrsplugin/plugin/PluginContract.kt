@@ -6,6 +6,12 @@ import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = false)
+enum class PluginSystemTheme(val value: String) {
+    @Json(name = "light") LIGHT("light"),
+    @Json(name = "dark") DARK("dark");
+}
+
+@JsonClass(generateAdapter = false)
 enum class PluginDataKeys(val value: String) {
     @Json(name = "VEHICLE_SPEED") VEHICLE_SPEED("VEHICLE_SPEED"),
     @Json(name = "VEHICLE_ODOMETER") VEHICLE_ODOMETER("VEHICLE_ODOMETER"),
@@ -13,6 +19,10 @@ enum class PluginDataKeys(val value: String) {
     @Json(name = "VEHICLE_TRIP") VEHICLE_TRIP("VEHICLE_TRIP"),
     @Json(name = "VEHICLE_BATTERY") VEHICLE_BATTERY("VEHICLE_BATTERY"),
     @Json(name = "VEHICLE_DRIVE_STATE") VEHICLE_DRIVE_STATE("VEHICLE_DRIVE_STATE"),
+
+    @Json(name = "EVENT_TOPIC_DATA") EVENT_TOPIC_DATA("EVENT_TOPIC_DATA"),
+    @Json(name = "EVENT_SUBSCRIBE_TOPIC_RESULT") EVENT_SUBSCRIBE_TOPIC_RESULT("EVENT_SUBSCRIBE_TOPIC_RESULT"),
+    @Json(name = "EVENT_UNSUBSCRIBE_TOPIC_RESULT") EVENT_UNSUBSCRIBE_TOPIC_RESULT("EVENT_UNSUBSCRIBE_TOPIC_RESULT"),
 
     @Json(name = "SYSTEM_THEME") SYSTEM_THEME("SYSTEM_THEME"),
 
@@ -24,7 +34,10 @@ enum class PluginActions(val value: String) {
     @Json(name = "PUSH") PUSH("PUSH"),
     @Json(name = "REPLACE") REPLACE("REPLACE"),
     @Json(name = "POP") POP("POP"),
-    @Json(name = "EMIT_EVENT") EMIT_EVENT("EMIT_EVENT"),
+    @Json(name = "SUBSCRIBE_WS_TOPIC") SUBSCRIBE_WS_TOPIC("SUBSCRIBE_WS_TOPIC"),
+    @Json(name = "UNSUBSCRIBE_WS_TOPIC") UNSUBSCRIBE_WS_TOPIC("UNSUBSCRIBE_WS_TOPIC"),
+    @Json(name = "SCRIPT_EVENT") SCRIPT_EVENT("SCRIPT_EVENT"),
+    @Json(name = "CONSUME_DATA") CONSUME_DATA("CONSUME_DATA"),
 }
 
 object PluginContract {
@@ -150,6 +163,28 @@ data class VehicleDriveStateData(
     val gear: String? = null,
     val ignitionOn: Boolean? = null,
     val moving: Boolean? = null
+) : Parcelable
+
+@JsonClass(generateAdapter = true)
+@Parcelize
+data class EventSubscribeTopicResultdata(
+    val uuid: String,
+    val topic: String
+) : Parcelable
+
+@JsonClass(generateAdapter = true)
+@Parcelize
+data class EventUnsubscribeTopicResultdata(
+    val uuid: String,
+    val topic: String
+) : Parcelable
+
+@JsonClass(generateAdapter = true)
+@Parcelize
+data class EventTopicData(
+    val uuid: String,
+    val topic: String,
+    val payload: String
 ) : Parcelable
 
 @JsonClass(generateAdapter = true)
