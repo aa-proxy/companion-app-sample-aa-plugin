@@ -17,17 +17,16 @@ import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.state.RemoteString
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.ui.graphics.Color
-import com.github.deadknight.aaproxyrsplugin.plugin.JsonEnvelope
 import com.github.deadknight.aaproxyrsplugin.plugin.PluginAction
 import com.github.deadknight.aaproxyrsplugin.plugin.PluginActions
 import com.github.deadknight.aaproxyrsplugin.plugin.PluginContract
 import com.github.deadknight.aaproxyrsplugin.plugin.PluginDataKeys
+import com.github.deadknight.aaproxyrsplugin.plugin.PluginJson
 import com.github.deadknight.aaproxyrsplugin.plugin.PluginRenderRequest
 import com.github.deadknight.aaproxyrsplugin.plugin.SystemThemeData
 import com.github.deadknight.aaproxyrsplugin.plugin.VehicleOdometerData
 import com.github.deadknight.aaproxyrsplugin.plugin.VehicleSpeedData
 import com.github.deadknight.aaproxyrsplugin.plugin.VehicleTpmsData
-import fromJson
 import toJson
 import kotlin.math.roundToInt
 
@@ -39,16 +38,16 @@ class AAPluginRenderer(
         action: PluginAction? = null
     ): ByteArray {
 
-        val speed = readEnvelopeData<VehicleSpeedData>(
+        val speed = PluginJson.decode<VehicleSpeedData>(
             request.data[PluginDataKeys.VEHICLE_SPEED.value]
         )
-        val odometer = readEnvelopeData<VehicleOdometerData>(
+        val odometer = PluginJson.decode<VehicleOdometerData>(
             request.data[PluginDataKeys.VEHICLE_ODOMETER.value]
         )
-        val tpms = readEnvelopeData<VehicleTpmsData>(
+        val tpms = PluginJson.decode<VehicleTpmsData>(
             request.data[PluginDataKeys.VEHICLE_TPMS.value]
         )
-        val theme = readEnvelopeData<SystemThemeData>(
+        val theme = PluginJson.decode<SystemThemeData>(
             request.data[PluginDataKeys.SYSTEM_THEME.value]
         )
 
@@ -135,11 +134,5 @@ class AAPluginRenderer(
         }
 
         return captured.bytes
-    }
-
-    private inline fun <reified T> readEnvelopeData(json: String?): T? {
-        if (json.isNullOrBlank()) return null
-        val envelope = SerializerMoshi.moshiKotlin.fromJson(JsonEnvelope::class.java, json)
-        return SerializerMoshi.moshiKotlin.fromJson(T::class.java, envelope.dataJson)
     }
 }
