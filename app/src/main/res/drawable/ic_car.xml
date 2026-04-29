@@ -1,0 +1,118 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="320dp"
+    android:viewportWidth="160"
+    android:viewportHeight="320">
+
+    <!-- Left front tire -->
+    <path
+        android:fillColor="#101010"
+        android:pathData="M18,70 Q18,58 30,58 L38,58 Q48,58 48,70 L48,120 Q48,132 36,132 L30,132 Q18,132 18,120 Z" />
+
+    <!-- Right front tire -->
+    <path
+        android:fillColor="#101010"
+        android:pathData="M112,70 Q112,58 124,58 L130,58 Q142,58 142,70 L142,120 Q142,132 130,132 L124,132 Q112,132 112,120 Z" />
+
+    <!-- Left rear tire -->
+    <path
+        android:fillColor="#101010"
+        android:pathData="M18,202 Q18,190 30,190 L36,190 Q48,190 48,202 L48,252 Q48,264 36,264 L30,264 Q18,264 18,252 Z" />
+
+    <!-- Right rear tire -->
+    <path
+        android:fillColor="#101010"
+        android:pathData="M112,202 Q112,190 124,190 L130,190 Q142,190 142,202 L142,252 Q142,264 130,264 L124,264 Q112,264 112,252 Z" />
+
+    <!-- Main shadow -->
+    <path
+        android:fillColor="#22000000"
+        android:pathData="M46,36 Q46,20 80,20 Q114,20 114,36 L124,104 Q132,154 124,216 L114,292 Q112,306 80,306 Q48,306 46,292 L36,216 Q28,154 36,104 Z" />
+
+    <!-- Main body -->
+    <path
+        android:fillColor="#5F6F7D"
+        android:pathData="M48,28 Q50,14 80,14 Q110,14 112,28 L124,108 Q130,154 124,212 L112,292 Q110,306 80,306 Q50,306 48,292 L36,212 Q30,154 36,108 Z" />
+
+    <!-- Body highlight center -->
+    <path
+        android:fillColor="#738596"
+        android:pathData="M58,32 Q60,22 80,22 Q100,22 102,32 L112,112 Q118,154 112,210 L102,282 Q100,294 80,294 Q60,294 58,282 L48,210 Q42,154 48,112 Z" />
+
+    <!-- Hood -->
+    <path
+        android:fillColor="#9AA8B5"
+        android:pathData="M58,34 Q62,24 80,24 Q98,24 102,34 L108,86 Q96,78 80,78 Q64,78 52,86 Z" />
+
+    <!-- Hood center crease -->
+    <path
+        android:strokeColor="#C8D2DB"
+        android:strokeWidth="2"
+        android:strokeAlpha="0.55"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M80,28 L80,78" />
+
+    <!-- Front windshield -->
+    <path
+        android:fillColor="#1D2A36"
+        android:pathData="M52,98 Q62,84 80,84 Q98,84 108,98 L104,136 Q94,128 80,128 Q66,128 56,136 Z" />
+
+    <!-- Roof / cabin -->
+    <path
+        android:fillColor="#334555"
+        android:pathData="M56,148 Q60,134 80,134 Q100,134 104,148 L106,206 Q96,218 80,218 Q64,218 54,206 Z" />
+
+    <!-- Cabin center glass -->
+    <path
+        android:fillColor="#182430"
+        android:pathData="M64,154 Q68,144 80,144 Q92,144 96,154 L98,198 Q90,206 80,206 Q70,206 62,198 Z" />
+
+    <!-- Rear windshield -->
+    <path
+        android:fillColor="#1D2A36"
+        android:pathData="M56,230 Q66,220 80,220 Q94,220 104,230 L100,274 Q94,284 80,284 Q66,284 60,274 Z" />
+
+    <!-- Trunk -->
+    <path
+        android:fillColor="#7D8D9B"
+        android:pathData="M60,276 Q66,288 80,288 Q94,288 100,276 L106,292 Q100,300 80,300 Q60,300 54,292 Z" />
+
+    <!-- Left side body line -->
+    <path
+        android:strokeColor="#D6DEE6"
+        android:strokeWidth="1.5"
+        android:strokeAlpha="0.35"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M52,42 Q42,122 44,160 Q44,204 54,282" />
+
+    <!-- Right side body line -->
+    <path
+        android:strokeColor="#D6DEE6"
+        android:strokeWidth="1.5"
+        android:strokeAlpha="0.35"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M108,42 Q118,122 116,160 Q116,204 106,282" />
+
+    <!-- Front lights -->
+    <path
+        android:fillColor="#E8EEF4"
+        android:fillAlpha="0.85"
+        android:pathData="M52,32 Q62,24 74,28 L70,40 Q60,40 52,36 Z" />
+
+    <path
+        android:fillColor="#E8EEF4"
+        android:fillAlpha="0.85"
+        android:pathData="M108,32 Q98,24 86,28 L90,40 Q100,40 108,36 Z" />
+
+    <!-- Rear lights -->
+    <path
+        android:fillColor="#C94A4A"
+        android:fillAlpha="0.95"
+        android:pathData="M54,288 Q62,294 72,292 L70,300 Q60,300 54,294 Z" />
+
+    <path
+        android:fillColor="#C94A4A"
+        android:fillAlpha="0.95"
+        android:pathData="M106,288 Q98,294 88,292 L90,300 Q100,300 106,294 Z" />
+
+</vector>
