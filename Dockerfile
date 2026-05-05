@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7-labs
 
-FROM eclipse-temurin:17-jdk-jammy AS builder
+FROM eclipse-temurin:17-jdk-jammy AS base
 
 ENV ANDROID_SDK_ROOT=/sdk
 ENV PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools
@@ -26,13 +26,28 @@ RUN sdkmanager \
 
 WORKDIR /app
 
+# ===== DEV =====
+FROM base AS dev
+
+CMD ["sh", "-c", "\
+echo '============================'; \
+echo '🚀 ANDROID DEV CONTAINER'; \
+echo 'SDK ROOT: '$ANDROID_SDK_ROOT; \
+echo 'WORKDIR: /app'; \
+echo 'BUILDING DEBUG APK:'; \
+echo './gradlew assembleDebug'; \
+echo '============================\n'; \
+exec bash"]
+#CMD ["bash"]
+
+# ===== CI =====
+FROM base AS ci
+
 COPY . .
-
 RUN chmod +x ./gradlew
-
 RUN ./gradlew assembleDebug
 
-# ===== EXPORT STAGE =====
+# ===== EXPORT =====
 FROM scratch AS export
 
-COPY --from=builder /app/app/build/outputs/apk/debug/app-debug.apk /app-debug.apk
+COPY --from=ci /app/app/build/outputs/apk/debug/app-debug.apk /app-debug.apk
