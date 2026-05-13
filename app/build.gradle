@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'com.google.devtools.ksp'
     id 'com.google.protobuf' version '0.9.4'
+    id 'com.ncorti.ktfmt.gradle' version '0.26.0'
 }
 
 android {

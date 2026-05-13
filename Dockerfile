@@ -36,6 +36,8 @@ echo 'SDK ROOT: '$ANDROID_SDK_ROOT; \
 echo 'WORKDIR: /app'; \
 echo 'BUILDING DEBUG APK:'; \
 echo './gradlew assembleDebug'; \
+echo 'FORMATTING:'; \
+echo './gradlew ktfmtFormat'; \
 echo '============================\n'; \
 exec bash"]
 #CMD ["bash"]
