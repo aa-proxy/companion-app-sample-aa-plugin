@@ -74,10 +74,14 @@ class AAPluginRenderer(private val context: Context) {
             ) {
               when (currentScreen) {
                 "home" -> {
-                  RemoteText("Speed: ${speed?.speedKph?.roundToInt() ?: "--"}")
-                  RemoteText("Odometer: ${odometer?.totalKm ?: "--"} km")
+                  RemoteText(
+                      "Speed: ${speed?.speedKph?.roundToInt() ?: "--"}",
+                      color = Color.White.rc,
+                  )
+                  RemoteText("Odometer: ${odometer?.totalKm ?: "--"} km", color = Color.White.rc)
                   RemoteText(
                       "OPEN TPMS",
+                      color = Color.White.rc,
                       modifier =
                           RemoteModifier.padding(top = 24.rdp, bottom = 24.rdp)
                               .clickable(
@@ -105,9 +109,10 @@ class AAPluginRenderer(private val context: Context) {
                     context.getDrawable(R.drawable.ic_car)!!.toBitmap().asImageBitmap().rb
                   }
 
-                  RemoteText("TPMS")
+                  RemoteText("TPMS", color = Color.White.rc)
                   RemoteText(
                       "BACK",
+                      color = Color.White.rc,
                       modifier =
                           RemoteModifier.padding(top = 16.rdp, bottom = 24.rdp)
                               .clickable(
@@ -128,11 +133,13 @@ class AAPluginRenderer(private val context: Context) {
                     RemoteColumn(modifier = RemoteModifier.fillMaxHeight()) {
                       RemoteText(
                           modifier = RemoteModifier.padding(0.rdp, 40.rdp, 0.rdp, 0.rdp),
+                          color = Color.White.rc,
                           text = tpms?.fl?.pressureKpa?.toString()?.rs ?: "-".rs,
                       )
                       RemoteBox(modifier = RemoteModifier.weight(1.0f.rf))
                       RemoteText(
                           modifier = RemoteModifier.padding(0.rdp, 0.rdp, 0.rdp, 40.rdp),
+                          color = Color.White.rc,
                           text = tpms?.rl?.pressureKpa?.toString()?.rs ?: "-".rs,
                       )
                     }
@@ -142,11 +149,13 @@ class AAPluginRenderer(private val context: Context) {
                     RemoteColumn(modifier = RemoteModifier.wrapContentSize()) {
                       RemoteText(
                           modifier = RemoteModifier.padding(0.rdp, 40.rdp, 0.rdp, 0.rdp),
+                          color = Color.White.rc,
                           text = tpms?.fr?.pressureKpa?.toString()?.rs ?: "-".rs,
                       )
                       RemoteBox(modifier = RemoteModifier.weight(1.0f.rf))
                       RemoteText(
                           modifier = RemoteModifier.padding(0.rdp, 0.rdp, 0.rdp, 40.rdp),
+                          color = Color.White.rc,
                           text = tpms?.rr?.pressureKpa?.toString()?.rs ?: "-".rs,
                       )
                     }
@@ -258,10 +267,10 @@ private fun TpmsInfoBlock(
               .padding(horizontal = 14.rdp, vertical = 10.rdp)
   ) {
     RemoteColumn {
-      RemoteText(title)
-      RemoteText("Pressure: $pressure")
-      RemoteText("Temp: -")
-      RemoteText("Status: -")
+      RemoteText(title, color = Color.White.rc)
+      RemoteText("Pressure: $pressure", color = Color.White.rc)
+      RemoteText("Temp: -", color = Color.White.rc)
+      RemoteText("Status: -", color = Color.White.rc)
     }
   }
 }
