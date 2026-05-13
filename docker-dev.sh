@@ -13,7 +13,7 @@ if [ "$1" = "shell" ]; then
       --target dev \
       .
   else
-    echo "♻️ using existing image"
+    echo "♻️ using existing image, if you want to start from scratch, use: 'docker image rm android-dev'"
   fi
 
   docker run -it --rm \
