@@ -99,10 +99,7 @@ data class TpmsWheelData(val pressureKpa: Float? = null, val tempC: Float? = nul
 @JsonClass(generateAdapter = true)
 @Parcelize
 data class VehicleTpmsData(
-    val fl: TpmsWheelData? = null,
-    val fr: TpmsWheelData? = null,
-    val rl: TpmsWheelData? = null,
-    val rr: TpmsWheelData? = null,
+    val tyres: List<TpmsWheelData>? = null
 ) : Parcelable
 
 @JsonClass(generateAdapter = true)

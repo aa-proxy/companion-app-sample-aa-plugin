@@ -134,13 +134,13 @@ class AAPluginRenderer(private val context: Context) {
                       RemoteText(
                           modifier = RemoteModifier.padding(0.rdp, 40.rdp, 0.rdp, 0.rdp),
                           color = Color.White.rc,
-                          text = tpms?.fl?.pressureKpa?.toString()?.rs ?: "-".rs,
+                          text = tpms?.tyres?.get(0)?.pressureKpa?.toString()?.rs ?: "-".rs,
                       )
                       RemoteBox(modifier = RemoteModifier.weight(1.0f.rf))
                       RemoteText(
                           modifier = RemoteModifier.padding(0.rdp, 0.rdp, 0.rdp, 40.rdp),
                           color = Color.White.rc,
-                          text = tpms?.rl?.pressureKpa?.toString()?.rs ?: "-".rs,
+                          text = tpms?.tyres?.get(2)?.pressureKpa?.toString()?.rs ?: "-".rs,
                       )
                     }
 
@@ -150,13 +150,13 @@ class AAPluginRenderer(private val context: Context) {
                       RemoteText(
                           modifier = RemoteModifier.padding(0.rdp, 40.rdp, 0.rdp, 0.rdp),
                           color = Color.White.rc,
-                          text = tpms?.fr?.pressureKpa?.toString()?.rs ?: "-".rs,
+                          text = tpms?.tyres?.get(1)?.pressureKpa?.toString()?.rs ?: "-".rs,
                       )
                       RemoteBox(modifier = RemoteModifier.weight(1.0f.rf))
                       RemoteText(
                           modifier = RemoteModifier.padding(0.rdp, 0.rdp, 0.rdp, 40.rdp),
                           color = Color.White.rc,
-                          text = tpms?.rr?.pressureKpa?.toString()?.rs ?: "-".rs,
+                          text = tpms?.tyres?.get(3)?.pressureKpa?.toString()?.rs ?: "-".rs,
                       )
                     }
                   }
@@ -218,7 +218,7 @@ private fun TpmsOverviewResponsive(
 
     TpmsInfoBlock(
         title = "FL",
-        pressure = formatPressureKpa(tpms?.fl?.pressureKpa),
+        pressure = formatPressureKpa(tpms?.tyres?.get(0)?.pressureKpa),
         widthDp = cardWidth,
         heightDp = cardHeight,
         modifier = RemoteModifier.padding(start = leftX.rdp, top = topY.rdp),
@@ -226,7 +226,7 @@ private fun TpmsOverviewResponsive(
 
     TpmsInfoBlock(
         title = "RL",
-        pressure = formatPressureKpa(tpms?.rl?.pressureKpa),
+        pressure = formatPressureKpa(tpms?.tyres?.get(2)?.pressureKpa),
         widthDp = cardWidth,
         heightDp = cardHeight,
         modifier = RemoteModifier.padding(start = leftX.rdp, top = bottomY.rdp),
@@ -234,7 +234,7 @@ private fun TpmsOverviewResponsive(
 
     TpmsInfoBlock(
         title = "FR",
-        pressure = formatPressureKpa(tpms?.fr?.pressureKpa),
+        pressure = formatPressureKpa(tpms?.tyres?.get(1)?.pressureKpa),
         widthDp = cardWidth,
         heightDp = cardHeight,
         modifier = RemoteModifier.padding(start = rightX.rdp, top = topY.rdp),
@@ -242,7 +242,7 @@ private fun TpmsOverviewResponsive(
 
     TpmsInfoBlock(
         title = "RR",
-        pressure = formatPressureKpa(tpms?.rr?.pressureKpa),
+        pressure = formatPressureKpa(tpms?.tyres?.get(3)?.pressureKpa),
         widthDp = cardWidth,
         heightDp = cardHeight,
         modifier = RemoteModifier.padding(start = rightX.rdp, top = bottomY.rdp),
