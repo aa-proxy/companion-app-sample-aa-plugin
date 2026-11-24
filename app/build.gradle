@@ -77,13 +77,13 @@ dependencies {
 
     implementation "androidx.navigation:navigation-compose:$nav_version"
 
-    implementation("androidx.compose.remote:remote-core:1.0.0-alpha09")
-    implementation("androidx.compose.remote:remote-creation:1.0.0-alpha09")
-    implementation("androidx.compose.remote:remote-creation-core:1.0.0-alpha09")
-    implementation("androidx.compose.remote:remote-creation-android:1.0.0-alpha09")
-    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-alpha09")
-    implementation("androidx.compose.remote:remote-player-core:1.0.0-alpha09")
-    implementation("androidx.compose.remote:remote-player-view:1.0.0-alpha09")
+    implementation("androidx.compose.remote:remote-core:1.0.0-alpha24")
+    implementation("androidx.compose.remote:remote-creation:1.0.0-alpha24")
+    implementation("androidx.compose.remote:remote-creation-core:1.0.0-alpha24")
+    implementation("androidx.compose.remote:remote-creation-android:1.0.0-alpha24")
+    implementation("androidx.compose.remote:remote-creation-compose:1.0.0-alpha24")
+    implementation("androidx.compose.remote:remote-player-core:1.0.0-alpha24")
+    implementation("androidx.compose.remote:remote-player-view:1.0.0-alpha24")
 
     implementation "com.google.android.material:material:1.11.0"
 

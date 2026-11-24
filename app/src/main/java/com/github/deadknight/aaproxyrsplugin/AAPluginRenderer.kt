@@ -2,7 +2,7 @@ package com.github.deadknight.aaproxyrsplugin
 
 import SerializerMoshi
 import android.content.Context
-import androidx.compose.remote.creation.compose.action.HostAction
+import androidx.compose.remote.creation.compose.action.hostAction
 import androidx.compose.remote.creation.compose.capture.RemoteCreationDisplayInfo
 import androidx.compose.remote.creation.compose.capture.captureSingleRemoteDocument
 import androidx.compose.remote.creation.compose.layout.RemoteBox
@@ -23,6 +23,7 @@ import androidx.compose.remote.creation.compose.modifier.height
 import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.width
 import androidx.compose.remote.creation.compose.modifier.wrapContentSize
+import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemotePaint
 import androidx.compose.remote.creation.compose.state.RemoteString
 import androidx.compose.remote.creation.compose.state.rb
@@ -35,16 +36,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.graphics.drawable.toBitmap
-import com.github.deadknight.aaproxyrsplugin.plugin.PluginAction
-import com.github.deadknight.aaproxyrsplugin.plugin.PluginActions
-import com.github.deadknight.aaproxyrsplugin.plugin.PluginContract
-import com.github.deadknight.aaproxyrsplugin.plugin.PluginDataKeys
+import com.github.deadknight.aaproxycompanion.plugin.PluginAction
+import com.github.deadknight.aaproxycompanion.plugin.PluginActions
+import com.github.deadknight.aaproxycompanion.plugin.PluginContract
+import com.github.deadknight.aaproxycompanion.plugin.PluginDataKeys
 import com.github.deadknight.aaproxyrsplugin.plugin.PluginJson
-import com.github.deadknight.aaproxyrsplugin.plugin.PluginRenderRequest
-import com.github.deadknight.aaproxyrsplugin.plugin.SystemThemeData
-import com.github.deadknight.aaproxyrsplugin.plugin.VehicleOdometerData
-import com.github.deadknight.aaproxyrsplugin.plugin.VehicleSpeedData
-import com.github.deadknight.aaproxyrsplugin.plugin.VehicleTpmsData
+import com.github.deadknight.aaproxycompanion.plugin.PluginRenderRequest
+import com.github.deadknight.aaproxycompanion.plugin.SystemThemeData
+import com.github.deadknight.aaproxycompanion.plugin.VehicleOdometerData
+import com.github.deadknight.aaproxycompanion.plugin.VehicleSpeedData
+import com.github.deadknight.aaproxycompanion.plugin.VehicleTpmsData
 import kotlin.math.roundToInt
 import toJson
 
@@ -67,7 +68,7 @@ class AAPluginRenderer(private val context: Context) {
                 RemoteCreationDisplayInfo(request.widthPx, request.heightPx, request.densityDpi),
             context = context,
         ) {
-          RemoteBox(modifier = RemoteModifier.fillMaxSize().background(background)) {
+          RemoteBox(modifier = RemoteModifier.fillMaxSize().background(background.rc)) {
             RemoteColumn(
                 modifier =
                     RemoteModifier.fillMaxWidth().padding(horizontal = 24.rdp, vertical = 24.rdp)
@@ -75,30 +76,27 @@ class AAPluginRenderer(private val context: Context) {
               when (currentScreen) {
                 "home" -> {
                   RemoteText(
-                      "Speed: ${speed?.speedKph?.roundToInt() ?: "--"}",
+                      "Speed: ${speed?.speedKph?.roundToInt() ?: "--"}".rs,
                       color = Color.White.rc,
                   )
-                  RemoteText("Odometer: ${odometer?.totalKm ?: "--"} km", color = Color.White.rc)
+                  RemoteText("Odometer: ${odometer?.totalKm ?: "--"} km".rs, color = Color.White.rc)
                   RemoteText(
-                      "OPEN TPMS",
+                      "OPEN TPMS".rs,
                       color = Color.White.rc,
                       modifier =
                           RemoteModifier.padding(top = 24.rdp, bottom = 24.rdp)
                               .clickable(
-                                  HostAction(
-                                      PluginContract.HostActionIds.PLUGIN_ACTION,
-                                      RemoteString("plugin_action"),
-                                      RemoteString(
-                                          SerializerMoshi.moshiKotlin.toJson(
+                                  hostAction(
+                                       id = PluginContract.HostActionIds.PLUGIN_ACTION,
+                                       metadata = RemoteString(SerializerMoshi.moshiKotlin.toJson(
                                               PluginAction::class.java,
                                               PluginAction(
                                                   action = PluginActions.PUSH,
                                                   screen = "tpms_detail",
                                                   paramsJson = "{}",
                                               ),
-                                          )
-                                      ),
-                                  )
+                                          ))
+                                   )
                               ),
                   )
                 }
@@ -109,23 +107,20 @@ class AAPluginRenderer(private val context: Context) {
                     context.getDrawable(R.drawable.ic_car)!!.toBitmap().asImageBitmap().rb
                   }
 
-                  RemoteText("TPMS", color = Color.White.rc)
+                  RemoteText("TPMS".rs, color = Color.White.rc)
                   RemoteText(
-                      "BACK",
+                      "BACK".rs,
                       color = Color.White.rc,
                       modifier =
                           RemoteModifier.padding(top = 16.rdp, bottom = 24.rdp)
                               .clickable(
-                                  HostAction(
-                                      PluginContract.HostActionIds.PLUGIN_ACTION,
-                                      RemoteString("plugin_action"),
-                                      RemoteString(
-                                          SerializerMoshi.moshiKotlin.toJson(
+                                  hostAction(
+                                       id = PluginContract.HostActionIds.PLUGIN_ACTION,
+                                       metadata = RemoteString(SerializerMoshi.moshiKotlin.toJson(
                                               PluginAction::class.java,
                                               PluginAction(action = PluginActions.POP),
-                                          )
-                                      ),
-                                  )
+                                          ))
+                                   )
                               ),
                   )
 
@@ -134,29 +129,29 @@ class AAPluginRenderer(private val context: Context) {
                       RemoteText(
                           modifier = RemoteModifier.padding(0.rdp, 40.rdp, 0.rdp, 0.rdp),
                           color = Color.White.rc,
-                          text = tpms?.tyres?.get(0)?.pressureKpa?.toString()?.rs ?: "-".rs,
+                          text = tpms?.tyres?.getOrNull(0)?.pressureKpa?.toString()?.rs ?: "-".rs,
                       )
                       RemoteBox(modifier = RemoteModifier.weight(1.0f.rf))
                       RemoteText(
                           modifier = RemoteModifier.padding(0.rdp, 0.rdp, 0.rdp, 40.rdp),
                           color = Color.White.rc,
-                          text = tpms?.tyres?.get(2)?.pressureKpa?.toString()?.rs ?: "-".rs,
+                          text = tpms?.tyres?.getOrNull(2)?.pressureKpa?.toString()?.rs ?: "-".rs,
                       )
                     }
 
-                    RemoteImage(remoteBitmap = carBmp, contentDescription = "".rs)
+                    RemoteImage(bitmap = carBmp, contentDescription = "".rs)
 
                     RemoteColumn(modifier = RemoteModifier.wrapContentSize()) {
                       RemoteText(
                           modifier = RemoteModifier.padding(0.rdp, 40.rdp, 0.rdp, 0.rdp),
                           color = Color.White.rc,
-                          text = tpms?.tyres?.get(1)?.pressureKpa?.toString()?.rs ?: "-".rs,
+                          text = tpms?.tyres?.getOrNull(1)?.pressureKpa?.toString()?.rs ?: "-".rs,
                       )
                       RemoteBox(modifier = RemoteModifier.weight(1.0f.rf))
                       RemoteText(
                           modifier = RemoteModifier.padding(0.rdp, 0.rdp, 0.rdp, 40.rdp),
                           color = Color.White.rc,
-                          text = tpms?.tyres?.get(3)?.pressureKpa?.toString()?.rs ?: "-".rs,
+                          text = tpms?.tyres?.getOrNull(3)?.pressureKpa?.toString()?.rs ?: "-".rs,
                       )
                     }
                   }
@@ -180,6 +175,10 @@ class AAPluginRenderer(private val context: Context) {
 private fun formatPressureKpa(value: Float?): String {
   return value?.roundToInt()?.let { "$it kPa" } ?: "-"
 }
+
+// RemoteOffset takes RemoteFloat coordinates in alpha24.
+private fun alpha24Offset(x: Float, y: Float): RemoteOffset = RemoteOffset(x.rf, y.rf)
+private fun alpha24Offset(x: RemoteFloat, y: Float): RemoteOffset = RemoteOffset(x, y.rf)
 
 private fun paint(color: Color): RemotePaint {
   return RemotePaint().apply { this.color = color.rc }
@@ -218,7 +217,7 @@ private fun TpmsOverviewResponsive(
 
     TpmsInfoBlock(
         title = "FL",
-        pressure = formatPressureKpa(tpms?.tyres?.get(0)?.pressureKpa),
+        pressure = formatPressureKpa(tpms?.tyres?.getOrNull(0)?.pressureKpa),
         widthDp = cardWidth,
         heightDp = cardHeight,
         modifier = RemoteModifier.padding(start = leftX.rdp, top = topY.rdp),
@@ -226,7 +225,7 @@ private fun TpmsOverviewResponsive(
 
     TpmsInfoBlock(
         title = "RL",
-        pressure = formatPressureKpa(tpms?.tyres?.get(2)?.pressureKpa),
+        pressure = formatPressureKpa(tpms?.tyres?.getOrNull(2)?.pressureKpa),
         widthDp = cardWidth,
         heightDp = cardHeight,
         modifier = RemoteModifier.padding(start = leftX.rdp, top = bottomY.rdp),
@@ -234,7 +233,7 @@ private fun TpmsOverviewResponsive(
 
     TpmsInfoBlock(
         title = "FR",
-        pressure = formatPressureKpa(tpms?.tyres?.get(1)?.pressureKpa),
+        pressure = formatPressureKpa(tpms?.tyres?.getOrNull(1)?.pressureKpa),
         widthDp = cardWidth,
         heightDp = cardHeight,
         modifier = RemoteModifier.padding(start = rightX.rdp, top = topY.rdp),
@@ -242,7 +241,7 @@ private fun TpmsOverviewResponsive(
 
     TpmsInfoBlock(
         title = "RR",
-        pressure = formatPressureKpa(tpms?.tyres?.get(3)?.pressureKpa),
+        pressure = formatPressureKpa(tpms?.tyres?.getOrNull(3)?.pressureKpa),
         widthDp = cardWidth,
         heightDp = cardHeight,
         modifier = RemoteModifier.padding(start = rightX.rdp, top = bottomY.rdp),
@@ -263,14 +262,14 @@ private fun TpmsInfoBlock(
           modifier
               .width(widthDp.rdp)
               .height(heightDp.rdp)
-              .background(Color(0xFFD7E3F4))
+              .background(Color(0xFFD7E3F4).rc)
               .padding(horizontal = 14.rdp, vertical = 10.rdp)
   ) {
     RemoteColumn {
-      RemoteText(title, color = Color.White.rc)
-      RemoteText("Pressure: $pressure", color = Color.White.rc)
-      RemoteText("Temp: -", color = Color.White.rc)
-      RemoteText("Status: -", color = Color.White.rc)
+      RemoteText(title.rs, color = Color.White.rc)
+      RemoteText("Pressure: $pressure".rs, color = Color.White.rc)
+      RemoteText("Temp: -".rs, color = Color.White.rc)
+      RemoteText("Status: -".rs, color = Color.White.rc)
     }
   }
 }
@@ -313,58 +312,58 @@ private fun TpmsCarCanvasResponsive(surfaceWidthDp: Float, overviewHeightDp: Flo
 
     drawRoundRect(
         paint = tirePaint,
-        topLeft = RemoteOffset(carLeft - tireWidth - tireGap, frontTireY),
+        topLeft = alpha24Offset(carLeft - tireWidth - tireGap, frontTireY),
         size = RemoteSize(tireWidth.rf, tireHeight.rf),
-        cornerRadius = RemoteOffset(tireRadius, tireRadius),
+        cornerRadius = alpha24Offset(tireRadius, tireRadius),
     )
 
     drawRoundRect(
         paint = tirePaint,
-        topLeft = RemoteOffset(carLeft - tireWidth - tireGap, rearTireY),
+        topLeft = alpha24Offset(carLeft - tireWidth - tireGap, rearTireY),
         size = RemoteSize(tireWidth.rf, tireHeight.rf),
-        cornerRadius = RemoteOffset(tireRadius, tireRadius),
+        cornerRadius = alpha24Offset(tireRadius, tireRadius),
     )
 
     drawRoundRect(
         paint = tirePaint,
-        topLeft = RemoteOffset(carLeft + carWidth + tireGap, frontTireY),
+        topLeft = alpha24Offset(carLeft + carWidth + tireGap, frontTireY),
         size = RemoteSize(tireWidth.rf, tireHeight.rf),
-        cornerRadius = RemoteOffset(tireRadius, tireRadius),
+        cornerRadius = alpha24Offset(tireRadius, tireRadius),
     )
 
     drawRoundRect(
         paint = tirePaint,
-        topLeft = RemoteOffset(carLeft + carWidth + tireGap, rearTireY),
+        topLeft = alpha24Offset(carLeft + carWidth + tireGap, rearTireY),
         size = RemoteSize(tireWidth.rf, tireHeight.rf),
-        cornerRadius = RemoteOffset(tireRadius, tireRadius),
+        cornerRadius = alpha24Offset(tireRadius, tireRadius),
     )
 
     drawRoundRect(
         paint = bodyPaint,
-        topLeft = RemoteOffset(carLeft, carTop),
+        topLeft = alpha24Offset(carLeft, carTop),
         size = RemoteSize(carWidth.rf, carHeight.rf),
-        cornerRadius = RemoteOffset(carWidth * 0.34f, carWidth * 0.34f),
+        cornerRadius = alpha24Offset(carWidth * 0.34f, carWidth * 0.34f),
     )
 
     drawRoundRect(
         paint = hoodPaint,
-        topLeft = RemoteOffset(cx - carWidth * 0.25f, carTop + carHeight * 0.09f),
+        topLeft = alpha24Offset(cx - carWidth * 0.25f, carTop + carHeight * 0.09f),
         size = RemoteSize((carWidth * 0.50f).rf, (carHeight * 0.18f).rf),
-        cornerRadius = RemoteOffset(18f, 18f),
+        cornerRadius = alpha24Offset(18f, 18f),
     )
 
     drawRoundRect(
         paint = glassPaint,
-        topLeft = RemoteOffset(cx - carWidth * 0.32f, carTop + carHeight * 0.34f),
+        topLeft = alpha24Offset(cx - carWidth * 0.32f, carTop + carHeight * 0.34f),
         size = RemoteSize((carWidth * 0.64f).rf, (carHeight * 0.17f).rf),
-        cornerRadius = RemoteOffset(18f, 18f),
+        cornerRadius = alpha24Offset(18f, 18f),
     )
 
     drawRoundRect(
         paint = cabinPaint,
-        topLeft = RemoteOffset(cx - carWidth * 0.34f, carTop + carHeight * 0.60f),
+        topLeft = alpha24Offset(cx - carWidth * 0.34f, carTop + carHeight * 0.60f),
         size = RemoteSize((carWidth * 0.68f).rf, (carHeight * 0.20f).rf),
-        cornerRadius = RemoteOffset(18f, 18f),
+        cornerRadius = alpha24Offset(18f, 18f),
     )
   }
 }
@@ -376,11 +375,11 @@ private fun TpmsCarCanvas() {
           RemoteModifier.fillMaxWidth().height(260.rdp).padding(top = 12.rdp, bottom = 12.rdp)
   ) {
     val w = size.width
-    val cx = w / 2f
+    val cx = w / 2f.rf
 
     val carWidth = 150f
     val carHeight = 220f
-    val carLeft = cx - carWidth / 2f
+    val carLeft = cx - (carWidth / 2f).rf
     val carTop = 20f
 
     val tirePaint = paint(Color(0xFF020617))
@@ -392,63 +391,63 @@ private fun TpmsCarCanvas() {
     // Left tires
     drawRoundRect(
         paint = tirePaint,
-        topLeft = RemoteOffset(carLeft - 34f, carTop + 34f),
+        topLeft = alpha24Offset(carLeft - 34f.rf, carTop + 34f),
         size = RemoteSize(30f.rf, 64f.rf),
-        cornerRadius = RemoteOffset(10f, 10f),
+        cornerRadius = alpha24Offset(10f, 10f),
     )
 
     drawRoundRect(
         paint = tirePaint,
-        topLeft = RemoteOffset(carLeft - 34f, carTop + 138f),
+        topLeft = alpha24Offset(carLeft - 34f.rf, carTop + 138f),
         size = RemoteSize(30f.rf, 64f.rf),
-        cornerRadius = RemoteOffset(10f, 10f),
+        cornerRadius = alpha24Offset(10f, 10f),
     )
 
     // Right tires
     drawRoundRect(
         paint = tirePaint,
-        topLeft = RemoteOffset(carLeft + carWidth + 4f, carTop + 34f),
+        topLeft = alpha24Offset(carLeft + carWidth.rf + 4f.rf, carTop + 34f),
         size = RemoteSize(30f.rf, 64f.rf),
-        cornerRadius = RemoteOffset(10f, 10f),
+        cornerRadius = alpha24Offset(10f, 10f),
     )
 
     drawRoundRect(
         paint = tirePaint,
-        topLeft = RemoteOffset(carLeft + carWidth + 4f, carTop + 138f),
+        topLeft = alpha24Offset(carLeft + carWidth.rf + 4f.rf, carTop + 138f),
         size = RemoteSize(30f.rf, 64f.rf),
-        cornerRadius = RemoteOffset(10f, 10f),
+        cornerRadius = alpha24Offset(10f, 10f),
     )
 
     // Body
     drawRoundRect(
         paint = bodyPaint,
-        topLeft = RemoteOffset(carLeft, carTop),
+        topLeft = alpha24Offset(carLeft, carTop),
         size = RemoteSize(carWidth.rf, carHeight.rf),
-        cornerRadius = RemoteOffset(48f, 48f),
+        cornerRadius = alpha24Offset(48f, 48f),
     )
 
     // Hood
     drawRoundRect(
         paint = hoodPaint,
-        topLeft = RemoteOffset(cx - 40f, carTop + 20f),
+        topLeft = alpha24Offset(cx - 40f.rf, carTop + 20f),
         size = RemoteSize(80f.rf, 44f.rf),
-        cornerRadius = RemoteOffset(20f, 20f),
+        cornerRadius = alpha24Offset(20f, 20f),
     )
 
     // Front glass
     drawRoundRect(
         paint = glassPaint,
-        topLeft = RemoteOffset(cx - 48f, carTop + 78f),
+        topLeft = alpha24Offset(cx - 48f.rf, carTop + 78f),
         size = RemoteSize(96f.rf, 42f.rf),
-        cornerRadius = RemoteOffset(18f, 18f),
+        cornerRadius = alpha24Offset(18f, 18f),
     )
 
     // Cabin
     drawRoundRect(
         paint = cabinPaint,
-        topLeft = RemoteOffset(cx - 52f, carTop + 132f),
+        topLeft = alpha24Offset(cx - 52f.rf, carTop + 132f),
         size = RemoteSize(104f.rf, 52f.rf),
-        cornerRadius = RemoteOffset(22f, 22f),
+        cornerRadius = alpha24Offset(22f, 22f),
     )
   }
 }

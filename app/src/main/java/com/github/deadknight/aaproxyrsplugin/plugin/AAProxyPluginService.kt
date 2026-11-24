@@ -4,6 +4,11 @@ import SerializerMoshi
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import com.github.deadknight.aaproxycompanion.plugin.PluginManifest
+import com.github.deadknight.aaproxycompanion.plugin.PluginDataKeys
+import com.github.deadknight.aaproxycompanion.plugin.PluginActions
+import com.github.deadknight.aaproxycompanion.plugin.PluginAction
+import com.github.deadknight.aaproxycompanion.plugin.PluginRenderRequest
 import com.github.deadknight.aaproxycompanion.plugin.aidl.IAAProxyPlugin
 import com.github.deadknight.aaproxyrsplugin.AAPluginRenderer
 import fromJson
